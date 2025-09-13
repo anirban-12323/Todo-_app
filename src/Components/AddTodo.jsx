@@ -1,16 +1,20 @@
-import { useState, useRef } from "react";
+import { useRef } from "react";
 import { MdAddBox } from "react-icons/md";
+import { useContext } from "react";
+import { TodoItemsContext } from "../store/todo-items-store";
 
-function AddTodo({ onNewItem }) {
+function AddTodo() {
   const todoNameElement = useRef(); //store references for todo input
   const dueDateElement = useRef(); // store references for date input
+  const { addNewItem } = useContext(TodoItemsContext);
 
   const handleAddButtonClicked = (event) => {
     event.preventDefault();
     // get values from input via refs
     const todoName = todoNameElement.current.value;
     const dueDate = dueDateElement.current.value;
-    onNewItem(todoName, dueDate);
+    if (!todoName.trim()) return;
+    addNewItem(todoName, dueDate);
 
     todoNameElement.current.value = "";
     dueDateElement.current.value = "";
